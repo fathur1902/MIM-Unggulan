@@ -1,0 +1,21 @@
+CREATE DATABASE IF NOT EXISTS mim_db;
+
+-- Memilih database 
+USE mim_db;
+
+CREATE TABLE IF NOT EXISTS berita (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    tag VARCHAR(50) DEFAULT 'Umum',
+    date DATE DEFAULT (CURRENT_DATE),
+    description TEXT,
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
