@@ -19,3 +19,24 @@ CREATE TABLE IF NOT EXISTS admins (
     password VARCHAR(255) NOT NULL
 );
 
+-- Tabel Guru / Kafilah 
+CREATE TABLE IF NOT EXISTS guru (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(100), 
+    description TEXT,  
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel Prestasi 
+CREATE TABLE IF NOT EXISTS prestasi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL, 
+    ranking VARCHAR(50),            
+    level VARCHAR(100),          
+    description TEXT,
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
