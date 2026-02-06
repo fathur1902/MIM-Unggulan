@@ -1,2 +1,0 @@
-username: admin-mimpu
-password: mimpu12345
