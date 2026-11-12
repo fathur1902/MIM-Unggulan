@@ -5,25 +5,38 @@ import {
   FiFileText,
   FiUsers,
   FiAward,
+  FiShield, // <--- 1. Tambahkan import FiShield di sini
   FiLogOut,
   FiMenu,
   FiX,
 } from "react-icons/fi";
 import { LuGraduationCap } from "react-icons/lu";
-import Swal from "sweetalert2"; // <--- Import SweetAlert
+import Swal from "sweetalert2";
+
+// Helper untuk membaca username yang sedang login dari token
+const getLoggedInUsername = () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return "Admin";
+    const decoded = JSON.parse(atob(token.split(".")[1]));
+    return decoded.username || "Admin";
+  } catch {
+    return "Admin";
+  }
+};
 
 export default function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const currentAdmin = getLoggedInUsername();
 
   const handleLogout = async () => {
-    // Gunakan SweetAlert untuk konfirmasi
     const result = await Swal.fire({
       title: "Yakin ingin keluar?",
       text: "Anda harus login kembali untuk mengakses halaman ini.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33", // Merah untuk logout
+      confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Ya, Keluar",
       cancelButtonText: "Batal",
@@ -32,7 +45,6 @@ export default function AdminLayout() {
     if (result.isConfirmed) {
       localStorage.removeItem("token");
 
-      // Opsional: Tampilkan notifikasi "Bye bye" sebelum pindah
       await Swal.fire({
         title: "Logged Out!",
         text: "Berhasil keluar dari sistem.",
@@ -45,11 +57,13 @@ export default function AdminLayout() {
     }
   };
 
+  // 2. Tambahkan menu Kelola Admin ke dalam array menuItems ini
   const menuItems = [
     { path: "/admin", icon: <FiHome />, label: "Dashboard", end: true },
     { path: "/admin/berita", icon: <FiFileText />, label: "Berita" },
     { path: "/admin/guru", icon: <FiUsers />, label: "Guru (Kafilah)" },
     { path: "/admin/prestasi", icon: <FiAward />, label: "Prestasi" },
+    { path: "/admin/users", icon: <FiShield />, label: "Kelola Admin" },
   ];
 
   return (
@@ -64,8 +78,10 @@ export default function AdminLayout() {
           <div className="text-teal-600">
             <LuGraduationCap size={32} />
           </div>
-          <div>
-            <h1 className="font-bold text-gray-800 text-lg">Admin Panel</h1>
+          <div className="min-w-0">
+            <h1 className="font-bold text-gray-800 text-lg truncate">
+              {currentAdmin}
+            </h1>
             <p className="text-xs text-teal-600 font-medium">MIM Unggulan</p>
           </div>
           <button
@@ -107,9 +123,7 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
-        {/* Mobile Header */}
         <header className="bg-white shadow-sm h-16 flex items-center justify-between px-6 md:hidden sticky top-0 z-40">
           <div className="text-teal-600">
             <LuGraduationCap size={28} />

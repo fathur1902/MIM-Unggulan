@@ -6,13 +6,29 @@ import {
   FiCalendar,
   FiArrowRight,
   FiTrendingUp,
+  FiShield,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+
+// Helper untuk mengambil username dari JWT token yang tersimpan di localStorage
+const getLoggedInUsername = () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return "Admin";
+    const payloadBase64 = token.split(".")[1];
+    const decodedPayload = JSON.parse(atob(payloadBase64));
+    return decodedPayload.username || "Admin";
+  } catch {
+    return "Admin";
+  }
+};
 
 export default function DashboardAdmin() {
   const [stats, setStats] = useState({ berita: 0, guru: 0, prestasi: 0 });
   const [recentNews, setRecentNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [adminUsername, setAdminUsername] = useState("Admin");
+
   const today = new Date().toLocaleDateString("id-ID", {
     weekday: "long",
     year: "numeric",
@@ -21,6 +37,7 @@ export default function DashboardAdmin() {
   });
 
   useEffect(() => {
+    setAdminUsername(getLoggedInUsername());
     fetchAllData();
   }, []);
 
@@ -58,7 +75,10 @@ export default function DashboardAdmin() {
           <div className="flex items-center gap-2 text-teal-200 text-sm font-medium mb-2">
             <FiCalendar /> {today}
           </div>
-          <h1 className="text-3xl font-bold mb-2">Selamat Datang, Admin!👋</h1>
+          {/* Username otomatis muncul sesuai akun yang login */}
+          <h1 className="text-3xl font-bold mb-2">
+            Selamat Datang, {adminUsername}! 👋
+          </h1>
           <p className="text-teal-100 max-w-xl">
             Pantau perkembangan madrasah hari ini. Anda memiliki total{" "}
             <span className="font-bold text-white">
@@ -70,6 +90,7 @@ export default function DashboardAdmin() {
         <div className="absolute right-0 top-0 h-full w-1/3 bg-white/5 skew-x-12 blur-2xl"></div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-teal-500 rounded-full blur-3xl opacity-30"></div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Total Berita"
@@ -93,6 +114,7 @@ export default function DashboardAdmin() {
           link="/admin/prestasi"
         />
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-6">
@@ -149,6 +171,7 @@ export default function DashboardAdmin() {
             )}
           </div>
         </div>
+
         <div className="bg-teal-50 rounded-xl border border-teal-100 p-6">
           <h3 className="font-bold text-teal-900 mb-4">Aksi Cepat</h3>
           <div className="space-y-3">
@@ -173,6 +196,15 @@ export default function DashboardAdmin() {
               <span>🏆 Catat Juara</span>
               <FiArrowRight />
             </Link>
+            <Link
+              to="/admin/users"
+              className="flex items-center justify-between w-full bg-white p-3 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:shadow-md hover:text-purple-600 transition"
+            >
+              <span className="flex items-center gap-2">
+                <FiShield className="text-purple-600" /> Kelola Akun Admin
+              </span>
+              <FiArrowRight />
+            </Link>
           </div>
 
           <div className="mt-8 bg-teal-100/50 p-4 rounded-lg">
@@ -187,6 +219,7 @@ export default function DashboardAdmin() {
     </div>
   );
 }
+
 const StatCard = ({ title, count, icon, color, link }) => (
   <Link
     to={link}

@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -16,6 +21,7 @@ import EditGuru from "./pages/admin/EditGuru";
 import EditPrestasi from "./pages/admin/EditPrestasi";
 import DetailBerita from "./pages/DetailBerita";
 import ScrollToHash from "./components/ScrollToHash";
+import ManageAdmin from "./pages/admin/ManageAdmin";
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -39,6 +45,7 @@ export default function App() {
           }
         >
           <Route index element={<DashboardAdmin />} />
+          <Route path="users" element={<ManageAdmin />} />
           <Route path="berita" element={<ManageBerita />} />
           <Route path="berita/create" element={<CreateBerita />} />
           <Route path="berita/edit/:id" element={<EditBerita />} />
