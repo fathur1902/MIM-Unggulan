@@ -52,12 +52,6 @@ export default function Navbar() {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
-            <Link
-              to="/login"
-              className="flex items-center gap-2 bg-teal-600 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-700 transition shadow-md"
-            >
-              <FiLogIn /> Login
-            </Link>
           </div>
           <button
             onClick={toggleMenu}

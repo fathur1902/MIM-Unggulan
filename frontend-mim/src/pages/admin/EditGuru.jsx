@@ -172,7 +172,7 @@ export default function EditGuru() {
             type="submit"
             className="px-6 py-2 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 flex items-center gap-2"
           >
-            <FiSave /> Update Data
+            <FiSave /> Update Data 
           </button>
         </div>
       </form>
